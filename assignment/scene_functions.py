@@ -113,11 +113,11 @@ def create_fence(length=10, height=1.5, post_count=6, position=(0, 0, 0)):
 
     # the post will be spaced out horizontally
     parts = []
-    spacing = length / (post_count -1)
- 
-  for i in range(post_count):
+    spacing = length / (post_count - 1)
+
+    for i in range(post_count):
         post = cmds.polyCube(width=0.2, height=height, depth=0.2)[0]
-        cmds.move(i * spacing, height / 2.0, 0, post)
+        cmds.move(position[0] + i * spacing, height / 2.0 + position[1], position[2], post)
         parts.append(post)
 
     #now creaitng the rails    
@@ -126,7 +126,7 @@ def create_fence(length=10, height=1.5, post_count=6, position=(0, 0, 0)):
     parts.append(rail)
 
     # Group fence together and return the group name
-    fence_group = cmds.group(parts)
+    fence_group = cmds.group(*parts)
     cmds.move(position[0], position[1], position[2], fence_group)
 
     return fence_group
@@ -193,8 +193,7 @@ def place_in_circle(create_func, count=8, radius=10, center=(0, 0, 0),
     #       e. Append the returned name to a results list.
     #   3. Return the results list.
     
-    results = []
-    group = cmds.group(empty=True, name="circle_group")                     
+    results = []                   
    
 # Calculates the angle                
     for i in range(count):
