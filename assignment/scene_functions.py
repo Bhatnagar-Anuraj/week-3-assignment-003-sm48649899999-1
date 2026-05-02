@@ -55,7 +55,7 @@ def create_building(width=4, height=8, depth=4, position=(0, 0, 0)):
     # returns objects to their name 
     return building
 
- def create_tree (trunk_radius=0.3, trunk_height=3, canopy_radius=2,
+ def create_tree(trunk_radius=0.3, trunk_height=3, canopy_radius=2,
                 position=(0, 0, 0)):
     """Create a simple tree using a cylinder trunk and a sphere canopy.
 
@@ -76,15 +76,17 @@ def create_building(width=4, height=8, depth=4, position=(0, 0, 0)):
     #   5. Return the group name.
                     
     # Creates a cylinder for the trunk and it's demensions
-    trunk = cmds.polyCylinder(radius=0.3, height=trunk_height)[0]
+    trunk = cmds.polyCylinder(radius=trunk_radius, height=trunk_height)[0]
     # telling the cylinder where to go and where to sit on the ground  
-    cmds.move(position[0], position[1] + height / 2.0, position[2], tree)
+    cmds.move(position[0], position[1] + trunk_height / 2.0, position[2], trunk)
     # Creates a sphere and it's demensions
-   canopy = cmds.polySphere(radius=canopy_radius)[0]
+    canopy = cmds.polySphere(radius=canopy_radius)[0]
     #telling the sphere to be on top of the trunk 
     cmds.move(position[0], position[1] + trunk_height + canopy_radius * 0.6, position[2], canopy)
-    # returns objects to their name 
-    return trunk, canopy
+    # Group trunk and canopy together and return the group name
+    tree_grp = cmds.group(trunk, canopy, name="tree_grp")
+    cmds.move(0, 0, 0, tree_grp, relative=True)
+    return tree_grp
 
 def create_fence(length=10, height=1.5, post_count=6, position=(0, 0, 0)):
     """Create a simple fence made of posts and rails.
@@ -108,24 +110,23 @@ def create_fence(length=10, height=1.5, post_count=6, position=(0, 0, 0)):
     #   5. Return the group name.
 
     # the post will be spaced out horizontally
-   for post_number in range(post_count):
-    position_x = position[0] + post_number * spacing
-    post = cmds.polyCube(w=0.2, h=height, d=0.2)[0]
-    cmds.move(position_x, position[1] + height / 2.0, position[2], post)
-    fence_objects.append(post)
-
-   # Create post and space it along X on the ground
-    position_x = position[0] + post_number * spacing_between_posts
-    post = cmds.polyCube(w=0.2, h=1.5, d=0.2)[0]  
-    cmds.move(position_x, position[1] + 1.5 / 2.0, position[2], post)
-    fence_objects.append(post)
+    spacing = length / (post_count - 1)
+    fence_objects = []
+ 
+    for post_number in range(post_count):
+        position_x = position[0] + post_number * spacing
+        post = cmds.polyCube(w=0.2, h=height, d=0.2)[0]
+        cmds.move(position_x, position[1] + height / 2.0, position[2], post)
+        fence_objects.append(post)
 
     #now creaitng the rails    
     rail = cmds.polyCube(w=length, h=0.2, d=0.2)[0]
-    cmds.move(position[0] + length / 2.0, position[1] + 1.5, position[2], rail)
+    cmds.move(position[0] + length / 2.0, position[1] + height - 0.1, position[2], rail)
     fence_objects.append(rail)
-   
+    # Group fence together and return the group name
+    fence_grp = cmds.group(*fence_objects, name="fence_grp")
     return fence_grp
+ 
 
 def create_lamp_post(pole_height=5, light_radius=0.5, position=(0, 0, 0)):
     """Create a street lamp using acylinder pole and a sphere light.
@@ -146,16 +147,12 @@ def create_lamp_post(pole_height=5, light_radius=0.5, position=(0, 0, 0)):
     # Creating pole from a cylinder, it's dimensions, and where it will sit on the ground 
     pole = cmds.polyCylinder(radius=0.1, height=pole_height)[0]
     cmds.move(position[0], position[1] + pole_height / 2.0, position[2], pole)
-
     # Create light from a sphere, it's dimensions, and where it sits on top of pole
     light = cmds.polySphere(radius=light_radius)[0]
-    cmds.move(position[0],
-              position[1] + pole_height + light_radius,
-              position[2],
-              light)
-
-   lamp = cmds.group(pole, light, name="lamp_grp")
- return lamp_grp
+    cmds.move(position[0], position[1] + pole_height + light_radius, position[2], light)
+    # Group lamp together and return the group name
+    lamp_grp = cmds.group(pole, light, name="lamp_grp")
+    return lamp_grp
     
     """Place objects created by 'create_func' in a circular arrangement.
 
@@ -193,8 +190,8 @@ def create_lamp_post(pole_height=5, light_radius=0.5, position=(0, 0, 0)):
         position_x = center[0] + math.cos(angle) * radius
         position_z = center[2] + math.sin(angle) * radius
         obj = create_func(position=(position_x, center[1], position_z), **kwargs)
-        results.append(new_obj)
+        results.append(obj)
     # creates the master group 
     master_grp = cmds.group(results, name="circle_arrangement")
     #returns results
-    return results
+    return master_grp
