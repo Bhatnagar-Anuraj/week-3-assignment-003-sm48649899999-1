@@ -38,7 +38,7 @@ ground = cmds.polyPlane(name="ground", width=60, height=60,
 # TODO: Build your scene below by calling functions from scene_functions.
 #
 # Example calls (uncomment and modify once your functions are implemented):
-#
+#   
 #   sf.create_building(width=5, height=10, depth=5, position=(-10, 0, 8))
 #   sf.create_tree(position=(3, 0, -5))
 #   sf.create_fence(length=12, post_count=7, position=(-6, 0, -3))
@@ -50,6 +50,30 @@ ground = cmds.polyPlane(name="ground", width=60, height=60,
 # Remember: call each function at least once, and aim for 15+ objects.
 # ---------------------------------------------------------------------------
 
+#creating 5 buidlings of different sizes
+# back-left medium
+sf.create_building(width=6, height=10, depth=6, position=(-15, 0, -10))  
+# back-right tall
+sf.create_building(width=5, height=14, depth=5, position=(15, 0, -10)) 
+# front-left wide
+sf.create_building(width=7, height=6, depth=7, position=(-15, 0, 10)) 
+# thinner tall building to the front right
+sf.create_building(width=4, height=12, depth=4, position=(15, 0, 10))   
+# medium building in center back
+sf.create_building(width=8, height=8, depth=8, position=(0, 0, 18)
+
+#putting trees in bwtween budilings 
+sf.create_tree(position=(-5, 0, -5))
+sf.create_tree(position=(5, 0, -5))
+sf.create_tree(position=(-5, 0, 5))
+sf.create_tree(position=(5, 0, 5))
+
+#putting 3 lamp posts and 2 trees into a circle around the center 
+sf.place_in_circle(sf.create_lamp_post, count=3, radius=10)
+sf.place_in_circle(sf.create_tree, count=2, radius=16)
+
+#putting fences up around                  
+sf.create_fence(length=20, post_count=6, position=(-10, 0, -15))
 
 # ---------------------------------------------------------------------------
 # Final viewport framing (do not remove).
