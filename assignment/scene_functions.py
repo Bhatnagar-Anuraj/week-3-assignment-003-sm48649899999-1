@@ -27,7 +27,6 @@ import math
 
 def create_building(width=4, height=8, depth=4, position=(0, 0, 0)):
     """Create a simple building from a cube, placed on the ground plane.
-    obj = cmds.polyCube(w=width, h=height, d=depth)[0]
 
     The building is a single scaled cube whose base sits at ground level
     (y = 0) at the given position.
@@ -127,7 +126,6 @@ def create_fence(length=10, height=1.5, post_count=6, position=(0, 0, 0)):
 
     # Group fence together and return the group name
     fence_group = cmds.group(*parts)
-    cmds.move(position[0], position[1], position[2], fence_group)
 
     return fence_group
  
@@ -157,9 +155,9 @@ def create_lamp_post(pole_height=5, light_radius=0.5, position=(0, 0, 0)):
     cmds.move(0, pole_height + light_radius, 0, light)
     
     # Group lamp together and return the group name
-    lamp_grp = cmds.group(pole, light, name="lamp_grp")
-    
-    return lamp_grp
+   lamp_grp = cmds.group(pole, light, name="lamp_grp")
+   cmds.move(position[0], position[1], position[2], lamp_grp)
+   return lamp_grp
 
  # placing objects in a circle
 def place_in_circle(create_func, count=8, radius=10, center=(0, 0, 0),
