@@ -60,7 +60,7 @@ sf.create_building(width=7, height=6, depth=7, position=(-15, 0, 10))
 # thinner tall building to the front right
 sf.create_building(width=4, height=12, depth=4, position=(15, 0, 10))   
 # medium building in center back
-sf.create_building(width=8, height=8, depth=8, position=(0, 0, 18)
+sf.create_building(width=8, height=8, depth=8, position=(0, 0, 18))
 
 #putting trees in bwtween budilings 
 sf.create_tree(position=(-5, 0, -5))
