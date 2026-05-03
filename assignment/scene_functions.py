@@ -126,7 +126,7 @@ def create_fence(length=10, height=1.5, post_count=6, position=(0, 0, 0)):
 
     # Group fence together and return the group name
     fence_group = cmds.group(*parts)
-
+    cmds.move(position[0], position[1], position[2], fence_group)
     return fence_group
  
 
