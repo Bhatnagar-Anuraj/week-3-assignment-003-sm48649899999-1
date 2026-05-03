@@ -1,6 +1,6 @@
 """
 DIGM 131 - Assignment 3: Function Library (main_scene.py)
-==========================================================
+========================================================== 
 
 OBJECTIVE:
     Use the functions you wrote in scene_functions.py to build a complete
